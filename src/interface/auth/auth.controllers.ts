@@ -3,16 +3,20 @@
 import { Request,Response } from "express"
 import { AdminRegisterUseCase } from "../../application/auth-use-case/adminRegister.use-case"
 import { AdminRepositoryImpl } from "../../infrastructure/database/admin/admin.repository.impl";
+import { AdminLoginUseCase } from "../../application/auth-use-case/adminLogin.use-case";
+import { IAdminRepository } from "../../domain/repositories/admin.repository";
 
-const adminRepo = new AdminRepositoryImpl(); // ✅ instantiate it
+const adminRepo:IAdminRepository = new AdminRepositoryImpl(); // ✅ instantiate it
 const registerAdminUseCase = new AdminRegisterUseCase(adminRepo); // ✅ pass the instance
-
+const adminLoginUseCase= new AdminLoginUseCase(adminRepo)
 
 export class AuthController{
     constructor(
-        private registerAdminUseCase:AdminRegisterUseCase
+        private registerAdminUseCase:AdminRegisterUseCase,
+        private adminLoginUseCase:AdminLoginUseCase
     ){
         this.registerAdmin=this.registerAdmin.bind(this)
+        this.adminLogin=this.adminLogin.bind(this)
     }
 
 
@@ -27,6 +31,24 @@ try {
           return res.status(500).json({ message: "Internal server error", error });
 }
 }
+async adminLogin(req:Request,res:Response){
+    try {
+        const {email,password}=req.body
+         const result=await this.adminLoginUseCase.execute({email,password})
+
+         await res.cookie("ACCESS_TOKEN",result.authAdmin.token,{
+            httpOnly:true,
+            secure:false,
+            maxAge:3600000
+         })
+         return res.status(201).json({success:true,message:result.message})
+    } catch (error) {
+        console.log("adminLogin",error)
+        return res.status(500).json({message:"Internal server error",error})
+    } 
 }
-const authControllers=new AuthController(registerAdminUseCase)
-export {authControllers}
+}
+
+const authControllers=new AuthController(registerAdminUseCase,adminLoginUseCase)
+export {authControllers}        
+ 

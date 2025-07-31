@@ -13,6 +13,11 @@ export interface registerResponse extends CommonResponse{
         verificationToken:string;
         token:string;
     }
+ 
 
+}
 
+export interface LoginRequest{
+    email:string;
+    password:string;
 }
