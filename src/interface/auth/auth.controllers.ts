@@ -25,10 +25,10 @@ console.log("aaa")
 try {
     const {name,email,password}=req.body
           const result = await this.registerAdminUseCase.execute({ name, email, password });
-    return res.status(201).json({ message: "Admin registered successfully", data: result });
+     res.status(201).json({ message: "Admin registered successfully", data: result });
 } catch (error) {
     console.log(error)
-          return res.status(500).json({ message: "Internal server error", error });
+           res.status(500).json({ message: "Internal server error", error });
 }
 }
 async adminLogin(req:Request,res:Response){
@@ -41,10 +41,10 @@ async adminLogin(req:Request,res:Response){
             secure:false,
             maxAge:3600000
          })
-         return res.status(201).json({success:true,message:result.message})
+          res.status(201).json({success:true,message:result.message})
     } catch (error) {
         console.log("adminLogin",error)
-        return res.status(500).json({message:"Internal server error",error})
+         res.status(500).json({message:"Internal server error",error})
     } 
 }
 }

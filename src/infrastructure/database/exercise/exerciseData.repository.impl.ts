@@ -1,6 +1,6 @@
 import { ExerciseData } from "../../../domain/entities/exerciseData.entity";
 import { createDataProps,IExerciseDataRepository } from "../../../domain/repositories/exerciseData.repository";
-import { ExerciseDataModel,IExerciseData } from "../../../infrastructure/database/exercise/exerciseData.model"
+import { ExerciseDataModel,IExerciseData } from "./exerciseData.model"
 
 
 export class ExerciseDataRepositoryImpl implements IExerciseDataRepository{
