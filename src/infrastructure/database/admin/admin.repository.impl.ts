@@ -30,6 +30,7 @@ export class AdminRepositoryImpl implements IAdminRepository{
     async findAdminByEmail(email:string):Promise<Admin|null>{
         try {
             const admin=await AdminModel.findOne({email:email})
+            console.log(222,admin)
             return admin?this.mapToEntity(admin):null
         } catch (error) {
             console.log(error)

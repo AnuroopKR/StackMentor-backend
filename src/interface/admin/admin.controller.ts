@@ -18,7 +18,17 @@ export class ExersiseDataController{
     async createExerciseData(req:Request,res:Response){
         try {
             const {title,data}=req.body
-            const result=await this.createExerciseDataUseCase.execute({title,data})
+                // 1. Replace unquoted keys → quoted keys
+    let fixed = data.replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+
+    // 2. Replace unquoted string values
+    fixed = fixed.replace(/:\s*([a-zA-Z_]+)(\s*[},])/g, ':"$1"$2');
+
+    // 3. Parse JSON
+    const input=JSON.parse(fixed);
+    console.log(444,input)
+            const result=await this.createExerciseDataUseCase.execute({title,data:input})
+            console.log(1,result)
             res.status(200).json({message:"excercise data created"})
         } catch (error) {
             console.log(error)

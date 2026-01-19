@@ -56,4 +56,4 @@ const adminSchema=new Schema<IAdmin>({
   isActive:{type:Boolean,default:true}
 },{timestamps:true})
 
-export const AdminModel = mongoose.model<IAdmin>('User', adminSchema);
+export const AdminModel = mongoose.model<IAdmin>('Admin', adminSchema);
