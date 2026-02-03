@@ -22,3 +22,10 @@ export interface MongodbQuestionResponse extends CommonResponse {
   difficulty?: "easy" | "medium" | "hard";
   tags?: string[];
 }
+
+export interface MongodbExerciseCategoryRequest {
+    description:string;
+    title:string;
+    difficulty:"easy"|"medium"|"hard";
+    tags:string[];
+}
