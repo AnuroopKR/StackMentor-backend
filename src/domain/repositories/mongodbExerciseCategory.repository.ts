@@ -4,4 +4,5 @@ export type createExerciseCategoryProps=Pick<MongodbExerciseCategory,"title"|"de
 
 export interface ImongodbExerciseCategoryRepository{
     createCategory(mongodbExerciseCategory:createExerciseCategoryProps):Promise<MongodbExerciseCategory>
+    getAllCategories():Promise<MongodbExerciseCategory[]>
 }

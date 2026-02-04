@@ -29,3 +29,15 @@ export interface MongodbExerciseCategoryRequest {
     difficulty:"easy"|"medium"|"hard";
     tags:string[];
 }
+export interface MongodbExerciseCategoryType {
+    _id:Types.ObjectId;
+    description:string;
+    title:string;
+    createdAt:Date; 
+    difficulty:string;
+    tags:string[];
+}
+
+export interface MongodbExerciseCategoryResponse extends CommonResponse{
+  data:MongodbExerciseCategoryType[]
+}

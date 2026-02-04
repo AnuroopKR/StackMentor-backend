@@ -11,5 +11,8 @@ router.post(
   "/create-category",
   mongodbExerciseCategoryController.createMongodbExerciseCategory
 );
-
+router.get(
+  "/get-category",
+  mongodbExerciseCategoryController.getAllCategories
+);
 export default router
