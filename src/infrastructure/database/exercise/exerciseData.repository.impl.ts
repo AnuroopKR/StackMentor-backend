@@ -31,4 +31,15 @@ export class ExerciseDataRepositoryImpl implements IExerciseDataRepository{
             return null
         }
     }
+async getData(): Promise<ExerciseData[]> {
+  try {
+    const exerciseData = await ExerciseDataModel.find();
+
+    return exerciseData.map((item) =>
+      this.mapToEntity(item)
+    );
+  } catch (error) {
+    throw new Error("Failed to fetch exercise data");
+  }
+}
 }

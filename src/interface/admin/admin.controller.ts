@@ -2,17 +2,21 @@ import { Request,Response } from "express";
 import { CreateExerciseDataUseCase } from "../../application/admin-use-case/createDocument-use-case";
 import { ExerciseDataRepositoryImpl } from "../../infrastructure/database/exercise/exerciseData.repository.impl";
 import { IExerciseDataRepository } from "../../domain/repositories/exerciseData.repository";
+import { GetMongodbExerciseDataUseCase } from "../../application/admin-use-case/getongodbExerciseData-use-case";
 
 
 const exerciseRepo:IExerciseDataRepository=new ExerciseDataRepositoryImpl()
 const createExerciseDataUseCase=new CreateExerciseDataUseCase(exerciseRepo)
+const getMongodbExerciseDataUseCase=new GetMongodbExerciseDataUseCase(exerciseRepo)
 
 
 export class ExersiseDataController{
     constructor(
-        private createExerciseDataUseCase:CreateExerciseDataUseCase
+        private createExerciseDataUseCase:CreateExerciseDataUseCase,
+        private getMongodbExerciseDataUseCase:GetMongodbExerciseDataUseCase
     ){
-        this.createExerciseData=this.createExerciseData.bind(this)
+        this.createExerciseData=this.createExerciseData.bind(this),
+        this.getAllData=this.getAllData.bind(this)
     }
 
     async createExerciseData(req:Request,res:Response){
@@ -35,8 +39,20 @@ export class ExersiseDataController{
              res.status(500).json({message:"Internal server error"})
         }
     }
+
+    getAllData = async (_req: Request, res: Response) => {
+        try {
+          const data = await this.getMongodbExerciseDataUseCase.execute();
+          res.status(200).json(data);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({
+            message: "Internal server error",
+          });
+        }
+      };
    
 }
 
-const exersiseDataController=new ExersiseDataController(createExerciseDataUseCase)
+const exersiseDataController=new ExersiseDataController(createExerciseDataUseCase,getMongodbExerciseDataUseCase)
 export {exersiseDataController}

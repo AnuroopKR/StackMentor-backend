@@ -15,4 +15,6 @@ router.get(
   "/get-category",
   mongodbExerciseCategoryController.getAllCategories
 );
+router.get("/exercise-data",exersiseDataController.getAllData)
+
 export default router
